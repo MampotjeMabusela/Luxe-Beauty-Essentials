@@ -89,11 +89,33 @@ Health check: `GET /health`
 2. `Procfile` included — deploy with `web: node index.js`
 3. Run seed once: `npm run seed`
 
-### Frontend (Vercel)
+### Frontend (Vercel) — step by step
 
-1. Root directory: `frontend`
-2. Build: `npm run build`
-3. Env: `VITE_API_BASE_URL`, `VITE_PAYSTACK_PUBLIC_KEY`
+Repository: [github.com/MampotjeMabusela/Luxe-Beauty-Essentials](https://github.com/MampotjeMabusela/Luxe-Beauty-Essentials)
+
+1. Go to [vercel.com](https://vercel.com) and sign in (use **Continue with GitHub**).
+2. Click **Add New…** → **Project**.
+3. **Import** `MampotjeMabusela/Luxe-Beauty-Essentials`.
+4. Configure the project:
+
+   | Setting | Value |
+   |---------|--------|
+   | **Root Directory** | `frontend` (click Edit, select `frontend`) |
+   | **Framework Preset** | Vite |
+   | **Build Command** | `npm run build` |
+   | **Output Directory** | `dist` |
+   | **Install Command** | `npm install` |
+
+5. **Environment Variables** (optional for now — hair catalog works without API):
+
+   | Name | Value |
+   |------|--------|
+   | `VITE_API_BASE_URL` | Your backend URL + `/api` (e.g. `https://your-api.railway.app/api`) when you deploy the API |
+
+6. Click **Deploy**. Your live URL will look like `https://luxe-beauty-essentials.vercel.app`.
+7. **Custom domain** (optional): Project → **Settings** → **Domains** → add `luxebeauty.co.za` and follow DNS instructions.
+
+**Note:** WhatsApp inquiries (+27 81 360 1443) and all 23 hair products work on Vercel without a backend. Connect `VITE_API_BASE_URL` later when you host the API on Railway.
 
 ## Paystack setup
 
