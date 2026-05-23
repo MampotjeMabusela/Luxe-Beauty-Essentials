@@ -1,0 +1,76 @@
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import Header from './components/Header';
+import Cart from './components/Cart';
+import Home from './pages/Home';
+import ProductDetail from './pages/ProductDetail';
+import CheckoutPage from './pages/CheckoutPage';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Orders from './pages/Orders';
+import Profile from './pages/Profile';
+import Admin from './pages/Admin';
+import Wishlist from './pages/Wishlist';
+import WhatsAppFloat from './components/WhatsAppFloat';
+import { WHATSAPP_DISPLAY } from './utils/whatsapp';
+
+function Layout() {
+  const [cartOpen, setCartOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header onCartOpen={() => setCartOpen(true)} />
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+        </Routes>
+      </main>
+      <footer className="bg-luxe-brown text-luxe-cream py-10 px-4 mt-12">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 text-sm">
+          <div>
+            <p className="font-display text-lg font-bold text-luxe-gold mb-2">Luxe Beauty & Essentials</p>
+            <p>Premium hair, acha & household essentials for South Africa.</p>
+          </div>
+          <div>
+            <p className="font-semibold mb-2">Support</p>
+            <p>WhatsApp: {WHATSAPP_DISPLAY}</p>
+            <p>Email: support@luxebeauty.co.za</p>
+            <p className="mt-2 text-luxe-rose/80">30-day returns · POPIA compliant</p>
+          </div>
+          <div>
+            <p className="font-semibold mb-2">Delivery</p>
+            <p>Zone 1 (JHB, PTA, CPT): R79</p>
+            <p>Zone 2 (major cities): R99</p>
+            <p>Zone 3 (remote): R149</p>
+            <p className="text-luxe-gold mt-1">Free shipping over R999</p>
+          </div>
+        </div>
+        <p className="text-center text-xs text-luxe-rose/60 mt-8">© {new Date().getFullYear()} Luxe Beauty & Essentials. All prices include VAT.</p>
+      </footer>
+      <Cart open={cartOpen} onClose={() => setCartOpen(false)} />
+      <WhatsAppFloat />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <Layout />
+        </CartProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}

@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-luxe-cream text-luxe-dark font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-luxe-brown text-luxe-cream px-6 py-3 rounded-lg font-medium
+      hover:bg-luxe-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-outline {
+    @apply border-2 border-luxe-brown text-luxe-brown px-6 py-3 rounded-lg font-medium
+      hover:bg-luxe-brown hover:text-luxe-cream transition-colors;
+  }
+  .input-field {
+    @apply w-full border border-luxe-rose rounded-lg px-4 py-2.5 bg-white
+      focus:outline-none focus:ring-2 focus:ring-luxe-gold/50;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-luxe-rose/40 overflow-hidden;
+  }
+
+  .tier-3d {
+    @apply transition-transform duration-500;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  .tier-3d:hover {
+    transform: perspective(900px) rotateY(-5deg) rotateX(3deg) scale(1.02);
+  }
+  .tier-3d .tier-image-wrap {
+    @apply transition-transform duration-500;
+  }
+  .tier-3d:hover .tier-image-wrap {
+    transform: translateZ(12px);
+  }
+
+  .tier-special {
+    @apply relative overflow-hidden;
+  }
+  .tier-special::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none z-[1];
+    background: linear-gradient(
+      135deg,
+      transparent 40%,
+      rgba(201, 169, 98, 0.12) 50%,
+      transparent 60%
+    );
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+}
