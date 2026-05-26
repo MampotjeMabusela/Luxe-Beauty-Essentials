@@ -9,7 +9,7 @@ export default function OrderConfirmation({ order, eftDetails }) {
       </div>
       <h1 className="text-2xl font-display font-bold text-luxe-brown">Order Confirmed!</h1>
       <p className="text-gray-600 mt-2">
-        Thank you for shopping with Luxe Beauty & Essentials
+        Thank you for shopping with Luxe Beauty
       </p>
 
       <div className="card p-6 mt-8 text-left">

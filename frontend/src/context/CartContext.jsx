@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
-import api from '../services/api';
+import { isInquiryProduct } from '../data/hairCatalog';
 
 const CartContext = createContext(null);
 const STORAGE_KEY = 'luxe_cart';
@@ -42,12 +42,14 @@ export function CartProvider({ children }) {
             : i
         );
       }
+      const inquiry = isInquiryProduct(product);
       return [
         ...prev,
         {
           product_id: product.id,
           name: product.name,
-          price: parseFloat(product.price),
+          price: inquiry ? null : parseFloat(product.price) || 0,
+          price_on_inquiry: inquiry,
           quantity,
           image_urls: product.image_urls,
           stock_quantity: product.stock_quantity,
@@ -77,21 +79,20 @@ export function CartProvider({ children }) {
   const clearCart = useCallback(() => setItems([]), []);
 
   const subtotal = useMemo(
-    () => items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+    () =>
+      items.reduce((sum, i) => {
+        if (i.price_on_inquiry || !i.price) return sum;
+        return sum + i.price * i.quantity;
+      }, 0),
+    [items]
+  );
+
+  const hasInquiryPricing = useMemo(
+    () => items.some((i) => i.price_on_inquiry || !i.price),
     [items]
   );
 
   const itemCount = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
-
-  const validateCart = useCallback(async (code) => {
-    if (!items.length) return null;
-    const { data } = await api.post('/cart/validate', {
-      items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })),
-      coupon_code: code || coupon || undefined,
-    });
-    setValidated(data);
-    return data;
-  }, [items, coupon]);
 
   const toggleWishlist = useCallback((productId) => {
     setWishlist((prev) =>
@@ -106,12 +107,12 @@ export function CartProvider({ children }) {
     setCoupon,
     validated,
     subtotal,
+    hasInquiryPricing,
     itemCount,
     addItem,
     removeItem,
     updateQuantity,
     clearCart,
-    validateCart,
     toggleWishlist,
     isInWishlist: (id) => wishlist.includes(id),
   };

@@ -7,7 +7,6 @@ import { formatZAR } from '../utils/format';
 import { findHairProduct, isInquiryProduct } from '../data/hairCatalog';
 import InquiryPriceBadge from '../components/InquiryPriceBadge';
 import WhatsAppButton from '../components/WhatsAppButton';
-import ProductTierBadge from '../components/ProductTierBadge';
 import { getTierConfig } from '../data/productTiers';
 
 export default function ProductDetail() {
@@ -50,42 +49,34 @@ export default function ProductDetail() {
   };
 
   if (!product) {
-    return <div className="max-w-7xl mx-auto p-8 animate-pulse">Loading...</div>;
+    return <div className="site-container py-8 animate-pulse">Loading...</div>;
   }
 
   const inquiry = isInquiryProduct(product);
-  const tier = product.display_tier;
-  const tierConfig = tier ? getTierConfig(tier) : null;
+  const tierConfig = getTierConfig();
   const image = product.image_urls?.[0];
   const lowStock = !inquiry && product.stock_quantity > 0 && product.stock_quantity <= 10;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <Link to="/" className="text-sm text-luxe-gold hover:underline mb-6 inline-block">← Back to shop</Link>
+    <div className="site-container py-6 sm:py-8 w-full overflow-x-hidden">
+      <Link to="/" className="text-sm text-luxe-gold hover:underline mb-4 sm:mb-6 inline-block">← Back to shop</Link>
 
-      <div className="grid md:grid-cols-2 gap-10">
-        <div className={`card aspect-square bg-luxe-cream overflow-hidden relative ${tierConfig?.cardClass || ''}`}>
-          {tier && (
-            <div className="absolute top-4 left-4 z-10">
-              <ProductTierBadge tier={tier} className="text-sm px-3 py-1.5" />
-            </div>
-          )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
+        <div className={`card aspect-square bg-luxe-cream overflow-hidden relative ${tierConfig.cardClass}`}>
+          <span className="absolute top-4 left-4 z-10 bg-luxe-dark/85 text-luxe-gold text-xs font-bold px-3 py-1.5 rounded tracking-widest">
+            4K ULTRA HD
+          </span>
           {image && (
             <img
               src={image}
               alt={product.name}
-              className={`w-full h-full object-contain bg-luxe-cream ${tierConfig?.imageClass || ''}`}
+              className={`w-full h-full object-contain bg-luxe-cream ${tierConfig.imageClass}`}
             />
           )}
         </div>
 
         <div>
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            {tier && (
-              <span className="text-xs text-gray-500">{tierConfig?.description}</span>
-            )}
-          </div>
-          <h1 className="text-3xl font-display font-bold text-luxe-brown">{product.name}</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-luxe-brown">{product.name}</h1>
           <div className="flex items-center gap-2 mt-2 text-amber-600">
             <span>★ {product.rating}</span>
             <span className="text-gray-400">({product.review_count || 0} reviews)</span>
@@ -94,14 +85,25 @@ export default function ProductDetail() {
           {inquiry ? (
             <div className="mt-6 space-y-4">
               <InquiryPriceBadge />
-              <WhatsAppButton
-                productName={product.name}
-                label="Inquire on WhatsApp"
-                size="lg"
-                className="w-full sm:w-auto"
-              />
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  type="button"
+                  className="btn-primary flex-1"
+                  onClick={() => {
+                    for (let i = 0; i < qty; i++) addItem(product);
+                  }}
+                >
+                  Add to cart
+                </button>
+                <WhatsAppButton
+                  productName={product.name}
+                  label="Quick quote"
+                  size="md"
+                  className="flex-1"
+                />
+              </div>
               <p className="text-sm text-gray-500">
-                Our team will reply with price, length options, and delivery details.
+                Add to cart and complete your order with a PDF summary via WhatsApp.
               </p>
             </div>
           ) : (

@@ -14,15 +14,16 @@ import Profile from './pages/Profile';
 import Admin from './pages/Admin';
 import Wishlist from './pages/Wishlist';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import Logo from './components/Logo';
 import { WHATSAPP_DISPLAY } from './utils/whatsapp';
 
 function Layout() {
   const [cartOpen, setCartOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen min-h-[100dvh] flex flex-col w-full overflow-x-hidden">
       <Header onCartOpen={() => setCartOpen(true)} />
-      <main className="flex-1">
+      <main className="flex-1 w-full min-w-0 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetail />} />
@@ -35,11 +36,14 @@ function Layout() {
           <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </main>
-      <footer className="bg-luxe-brown text-luxe-cream py-10 px-4 mt-12">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 text-sm">
+      <footer className="relative w-full bg-gradient-to-b from-luxe-dark via-luxe-brown to-luxe-dark text-luxe-cream py-8 sm:py-10 lg:py-12 border-t border-luxe-gold/20 mt-8 sm:mt-10">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-luxe-gold/50 to-transparent" />
+        <div className="site-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 text-sm">
           <div>
-            <p className="font-display text-lg font-bold text-luxe-gold mb-2">Luxe Beauty & Essentials</p>
-            <p>Premium hair, acha & household essentials for South Africa.</p>
+            <Logo variant="footer" linked={false} />
+            <p className="text-luxe-rose/90 leading-relaxed max-w-xs">
+              Premium hair extensions, lace fronts &amp; wigs — crafted for South Africa.
+            </p>
           </div>
           <div>
             <p className="font-semibold mb-2">Support</p>
@@ -55,7 +59,7 @@ function Layout() {
             <p className="text-luxe-gold mt-1">Free shipping over R999</p>
           </div>
         </div>
-        <p className="text-center text-xs text-luxe-rose/60 mt-8">© {new Date().getFullYear()} Luxe Beauty & Essentials. All prices include VAT.</p>
+        <p className="text-center text-xs text-luxe-rose/60 mt-8">© {new Date().getFullYear()} Luxe Beauty. Prices on inquiry via WhatsApp.</p>
       </footer>
       <Cart open={cartOpen} onClose={() => setCartOpen(false)} />
       <WhatsAppFloat />

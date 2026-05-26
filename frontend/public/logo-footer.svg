@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" fill="none" role="img" aria-label="Luxe Beauty">
+  <defs>
+    <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8D5A8"/>
+      <stop offset="50%" stop-color="#C9A962"/>
+      <stop offset="100%" stop-color="#9A7D3A"/>
+    </linearGradient>
+    <linearGradient id="fc" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#F8F4EF"/>
+      <stop offset="100%" stop-color="#E8D5C4"/>
+    </linearGradient>
+  </defs>
+  <!-- Emblem -->
+  <circle cx="36" cy="36" r="32" fill="none" stroke="url(#fg)" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="36" cy="36" r="26" fill="#1A1410" stroke="url(#fg)" stroke-width="1"/>
+  <path d="M22 50V22h8c6.5 0 10.5 3.5 10.5 9 0 4-2.2 6.8-5.8 7.8L46 50h-7.5l-8.2-11H28v11H22z M28 27.5v8.5h7.2c3.2 0 5-1.5 5-4.2s-1.8-4.3-5-4.3H28z" fill="url(#fc)"/>
+  <path d="M10 36c0-14.4 11.6-26 26-26" stroke="url(#fg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Wordmark -->
+  <text x="82" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="url(#fc)" letter-spacing="0.03em">LUXE</text>
+  <text x="82" y="52" font-family="system-ui, Segoe UI, sans-serif" font-size="11" font-weight="600" fill="url(#fg)" letter-spacing="0.38em">BEAUTY</text>
+  <line x1="82" y1="38" x2="290" y2="38" stroke="url(#fg)" stroke-width="1" opacity="0.5"/>
+  <text x="82" y="66" font-family="system-ui, sans-serif" font-size="8" fill="#E8D5C4" opacity="0.7" letter-spacing="0.15em">SOUTH AFRICA</text>
+</svg>

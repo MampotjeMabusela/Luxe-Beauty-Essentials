@@ -1,7 +1,7 @@
 {
   "name": "luxebeauty-backend",
   "version": "1.0.0",
-  "description": "Luxe Beauty & Essentials API",
+  "description": "Luxe Beauty API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

@@ -16,6 +16,7 @@ const products = [
     ],
     rating: 4.8,
     review_count: 243,
+    price_on_inquiry: true,
   },
   {
     name: 'Peruvian Body Wave 20"',
@@ -29,6 +30,7 @@ const products = [
     ],
     rating: 4.7,
     review_count: 189,
+    price_on_inquiry: true,
   },
   {
     name: 'Lace Front Wig — Straight',
@@ -42,85 +44,7 @@ const products = [
     ],
     rating: 4.9,
     review_count: 98,
-  },
-  {
-    name: 'Premium Acha Powder 500g',
-    description: 'Organic fonio (acha) powder. Gluten-free superfood for smoothies and baking.',
-    category: 'acha',
-    price: 149,
-    stock_quantity: 200,
-    sku: 'ACHA-PWD-500',
-    image_urls: [
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80',
-    ],
-    rating: 4.9,
-    review_count: 342,
-  },
-  {
-    name: 'Acha Grain 1kg',
-    description: 'Whole grain acha — cook like couscous or rice. Nutrient-rich.',
-    category: 'acha',
-    price: 89,
-    stock_quantity: 150,
-    sku: 'ACHA-GRN-1K',
-    image_urls: [
-      'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600&q=80',
-    ],
-    rating: 4.8,
-    review_count: 156,
-  },
-  {
-    name: 'Acha Breakfast Cereal 400g',
-    description: 'Ready-to-eat acha cereal with honey. Perfect morning boost.',
-    category: 'acha',
-    price: 69,
-    stock_quantity: 8,
-    sku: 'ACHA-CEL-400',
-    image_urls: [
-      'https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?w=600&q=80',
-    ],
-    rating: 4.6,
-    review_count: 87,
-  },
-  {
-    name: 'Ultra Soft Toilet Paper 48 Roll',
-    description: 'Premium 3-ply toilet paper. 48 rolls — best value for families.',
-    category: 'toilet_paper',
-    price: 299,
-    original_price: 349,
-    stock_quantity: 500,
-    sku: 'TP-SOFT-48',
-    image_urls: [
-      'https://images.unsplash.com/photo-1584438784894-9fccd6d2a4e8?w=600&q=80',
-    ],
-    rating: 4.8,
-    review_count: 512,
-  },
-  {
-    name: 'Eco Toilet Paper 24 Roll',
-    description: 'Recycled, eco-friendly 2-ply. Gentle on skin and planet.',
-    category: 'toilet_paper',
-    price: 179,
-    stock_quantity: 300,
-    sku: 'TP-ECO-24',
-    image_urls: [
-      'https://images.unsplash.com/photo-1600857062241-7e9c8b8c8c8c?w=600&q=80',
-    ],
-    rating: 4.5,
-    review_count: 201,
-  },
-  {
-    name: 'Family Pack Toilet Paper 72 Roll',
-    description: 'Bulk pack for large households. Ultra absorbent 3-ply.',
-    category: 'toilet_paper',
-    price: 449,
-    stock_quantity: 120,
-    sku: 'TP-FAM-72',
-    image_urls: [
-      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80',
-    ],
-    rating: 4.9,
-    review_count: 278,
+    price_on_inquiry: true,
   },
 ];
 
@@ -156,15 +80,6 @@ async function seed() {
       discount_value: 10,
       min_purchase: 200,
       max_uses: 1000,
-      is_active: true,
-    });
-
-    await Coupon.create({
-      code: 'FREESHIP',
-      discount_type: 'fixed',
-      discount_value: 79,
-      min_purchase: 500,
-      max_uses: 500,
       is_active: true,
     });
 

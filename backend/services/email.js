@@ -32,7 +32,7 @@ function orderConfirmationEmail(order, user) {
     <p>Total: <strong>R${parseFloat(order.total_amount).toFixed(2)}</strong></p>
     <p>Status: ${order.status} | Payment: ${order.payment_status}</p>
     <p>We'll notify you when your order ships.</p>
-    <p>Luxe Beauty & Essentials — South Africa</p>
+    <p>Luxe Beauty — South Africa</p>
   `;
 }
 

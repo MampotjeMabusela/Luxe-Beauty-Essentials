@@ -34,7 +34,7 @@ export default function Register() {
     <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
       <form onSubmit={handleSubmit} className="card p-8 w-full max-w-md">
         <h1 className="text-2xl font-display font-bold text-luxe-brown text-center mb-2">Join Luxe</h1>
-        <p className="text-center text-sm text-gray-500 mb-6">Create your account — shop beauty & essentials</p>
+        <p className="text-center text-sm text-gray-500 mb-6">Create your account — shop premium hair</p>
         {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <input

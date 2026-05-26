@@ -2,36 +2,12 @@
  * Hair extension & wig catalog — prices on inquiry via WhatsApp only.
  * Images: /public/products/hair-01.png … hair-23.png
  *
- * display_tier: background | 3d | 4k | special
+ * All products use 4K display quality.
  */
-export const HAIR_TIERS = {
-  'hair-01': '3d',
-  'hair-02': 'special',
-  'hair-03': 'background',
-  'hair-04': 'background',
-  'hair-05': '3d',
-  'hair-06': 'special',
-  'hair-07': 'special',
-  'hair-08': '4k',
-  'hair-09': '4k',
-  'hair-10': '4k',
-  'hair-11': '4k',
-  'hair-12': '3d',
-  'hair-13': '3d',
-  'hair-14': '3d',
-  'hair-15': 'background',
-  'hair-16': 'special',
-  'hair-17': 'special',
-  'hair-18': '4k',
-  'hair-19': 'background',
-  'hair-20': 'background',
-  'hair-21': '4k',
-  'hair-22': 'background',
-  'hair-23': 'special',
-};
+import { DISPLAY_TIER } from './productTiers';
 
 function withTier(product) {
-  return { ...product, display_tier: HAIR_TIERS[product.id] || 'background' };
+  return { ...product, display_tier: DISPLAY_TIER };
 }
 
 export const HAIR_CATALOG = [
@@ -322,10 +298,9 @@ export function findHairProduct(id) {
   return p ? withTier(p) : null;
 }
 
-export function filterHairProducts({ search, category, tier }) {
+export function filterHairProducts({ search, category }) {
   let list = HAIR_CATALOG.map(withTier);
   if (category && category !== 'hair') return [];
-  if (tier) list = list.filter((p) => p.display_tier === tier);
   if (search) {
     const q = search.toLowerCase();
     list = list.filter(
@@ -335,13 +310,6 @@ export function filterHairProducts({ search, category, tier }) {
     );
   }
   return list;
-}
-
-export function sortByTierPriority(products) {
-  const order = { special: 0, '4k': 1, '3d': 2, background: 3 };
-  return [...products].sort(
-    (a, b) => (order[a.display_tier] ?? 9) - (order[b.display_tier] ?? 9)
-  );
 }
 
 export function isInquiryProduct(product) {

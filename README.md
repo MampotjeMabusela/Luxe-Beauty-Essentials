@@ -1,6 +1,6 @@
-# Luxe Beauty & Essentials
+# Luxe Beauty
 
-Full-stack e-commerce platform for a South African retailer selling **Hair Extensions**, **Acha Products**, and **Toilet Paper**.
+Full-stack e-commerce platform for a South African hair retailer — **extensions, lace fronts & wigs** with WhatsApp price inquiry.
 
 ## Stack
 
@@ -134,4 +134,4 @@ Repository: [github.com/MampotjeMabusela/Luxe-Beauty-Essentials](https://github.
 
 ## License
 
-Proprietary — Luxe Beauty & Essentials
+Proprietary — Luxe Beauty

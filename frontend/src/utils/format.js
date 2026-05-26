@@ -9,11 +9,9 @@ export function formatZAR(amount) {
 
 export function categoryLabel(category) {
   const labels = {
-    hair: 'Hair Extensions',
-    acha: 'Acha Products',
-    toilet_paper: 'Toilet Paper',
+    hair: 'Hair Extensions & Wigs',
   };
-  return labels[category] || category;
+  return labels[category] || 'Hair';
 }
 
 export function debounce(fn, delay = 300) {

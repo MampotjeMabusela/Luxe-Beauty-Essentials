@@ -1,250 +1,126 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import api from '../services/api';
 import ProductGrid from '../components/ProductGrid';
-import { debounce, categoryLabel } from '../utils/format';
-import { filterHairProducts, getHairProducts, sortByTierPriority } from '../data/hairCatalog';
-import { PRODUCT_TIERS, TIER_ORDER } from '../data/productTiers';
-
-const CATEGORIES = [
-  { id: '', label: 'All' },
-  { id: 'hair', label: 'Hair' },
-  { id: 'acha', label: 'Acha' },
-  { id: 'toilet_paper', label: 'Essentials' },
-];
+import ProductAmbientBackground from '../components/ProductAmbientBackground';
+import { filterHairProducts, getHairProducts } from '../data/hairCatalog';
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [apiProducts, setApiProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(searchParams.get('q') || '');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [inStock, setInStock] = useState(false);
 
-  const category = searchParams.get('category') || '';
-  const tierFilter = searchParams.get('tier') || '';
-  const isHairOnly = category === 'hair' || category === '';
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    const tier = searchParams.get('tier');
+    if ((cat && cat !== 'hair') || tier) {
+      const next = new URLSearchParams(searchParams);
+      next.delete('category');
+      next.delete('tier');
+      setSearchParams(next, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
-  const fetchApiProducts = useMemo(
+  const products = useMemo(
     () =>
-      debounce(async (params) => {
-        if (category === 'hair') {
-          setLoading(false);
-          return;
-        }
-        setLoading(true);
-        try {
-          const { data } = await api.get('/products', { params });
-          setApiProducts(data.products || []);
-        } catch {
-          setApiProducts([]);
-        } finally {
-          setLoading(false);
-        }
-      }, 300),
-    [category]
+      filterHairProducts({
+        search,
+        category: 'hair',
+      }),
+    [search]
   );
 
-  useEffect(() => {
-    const params = {};
-    if (category && category !== 'hair') params.category = category;
-    if (search) params.search = search;
-    if (minPrice) params.min_price = minPrice;
-    if (maxPrice) params.max_price = maxPrice;
-    if (inStock) params.in_stock = 'true';
-
-    if (category === 'hair') {
-      setLoading(false);
-      return;
-    }
-
-    fetchApiProducts(params);
-  }, [category, search, minPrice, maxPrice, inStock, fetchApiProducts]);
-
-  const hairProducts = useMemo(() => {
-    const list = filterHairProducts({
-      search,
-      category: category || 'hair',
-      tier: tierFilter || undefined,
-    });
-    return tierFilter ? list : sortByTierPriority(list);
-  }, [search, category, tierFilter]);
-
-  const products = useMemo(() => {
-    if (tierFilter) return hairProducts;
-    if (category === 'hair') return hairProducts;
-    if (category === 'acha' || category === 'toilet_paper') return apiProducts;
-    return sortByTierPriority([...hairProducts, ...apiProducts]);
-  }, [category, tierFilter, hairProducts, apiProducts]);
-
-  const tierCounts = useMemo(() => {
-    const all = filterHairProducts({ search, category: category === 'acha' || category === 'toilet_paper' ? 'hair' : category || 'hair' });
-    return Object.fromEntries(
-      TIER_ORDER.map((tid) => [tid, all.filter((p) => p.display_tier === tid).length])
-    );
-  }, [search, category]);
-
-  const setTier = (tier) => {
-    const next = new URLSearchParams(searchParams);
-    if (tier) next.set('tier', tier);
-    else next.delete('tier');
-    setSearchParams(next);
-  };
-
-  useEffect(() => {
-    if (category === 'hair') setLoading(false);
-  }, [category]);
-
-  const setCategory = (cat) => {
-    const next = new URLSearchParams(searchParams);
-    if (cat) next.set('category', cat);
-    else next.delete('category');
-    setSearchParams(next);
-  };
-
   return (
-    <div>
-      <section className="bg-gradient-to-br from-luxe-brown to-luxe-dark text-luxe-cream py-16 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-luxe-gold uppercase tracking-[0.3em] text-sm mb-4">South Africa&apos;s Premier</p>
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-            Luxe Beauty & Essentials
-          </h1>
-          <p className="text-luxe-rose/90 max-w-xl mx-auto text-lg">
-            Premium hair extensions, organic acha products & household essentials — delivered nationwide.
+    <div className="w-full overflow-x-hidden">
+      <section className="hero-banner relative isolate overflow-hidden flex items-center w-full">
+        <img
+          src="/hero-background.png"
+          alt=""
+          className="hero-banner__image"
+          fetchPriority="high"
+          decoding="async"
+        />
+
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-luxe-dark/65 via-luxe-brown/40 to-luxe-cream/90"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-luxe-dark/35 via-transparent to-luxe-dark/35"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(26,20,16,0.35)_100%)]"
+          aria-hidden
+        />
+        <div className="absolute bottom-0 inset-x-0 h-20 sm:h-24 bg-gradient-to-t from-luxe-cream via-luxe-cream/80 to-transparent" aria-hidden />
+
+        <div className="relative z-10 site-container py-10 sm:py-12 lg:py-14 text-center w-full">
+          <p className="text-luxe-gold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[10px] sm:text-xs mb-3 sm:mb-4 drop-shadow-sm">
+            South Africa&apos;s Premier
           </p>
-          <p className="mt-4 text-sm text-luxe-gold">
-            Hair prices on WhatsApp inquiry · Free delivery over R999 on essentials
+          <h1 className="hero-title font-display font-bold text-luxe-cream mb-3 sm:mb-4 drop-shadow-md max-w-3xl mx-auto">
+            Luxe Beauty
+          </h1>
+          <p className="hero-subtitle text-luxe-rose/95 max-w-lg mx-auto leading-relaxed drop-shadow-sm px-2">
+            Premium hair extensions, lace fronts &amp; wigs — delivered nationwide.
+          </p>
+          <p className="mt-4 sm:mt-5 inline-flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm text-luxe-gold bg-luxe-dark/40 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full border border-luxe-gold/30 max-w-full">
+            <span className="font-bold tracking-widest text-[10px]">4K</span>
+            <span className="opacity-90 text-center">Product imagery · Prices on WhatsApp inquiry</span>
           </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="lg:w-56 shrink-0 space-y-6">
-            <div>
-              <h3 className="font-semibold text-luxe-brown mb-3">Categories</h3>
-              <div className="flex flex-wrap lg:flex-col gap-2">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => setCategory(cat.id)}
-                    className={`text-left px-3 py-2 rounded-lg text-sm ${
-                      category === cat.id
-                        ? 'bg-luxe-brown text-luxe-cream'
-                        : 'hover:bg-luxe-rose/50'
-                    }`}
-                  >
-                    {cat.label}
-                    {cat.id === 'hair' && (
-                      <span className="block text-xs opacity-80">{getHairProducts().length} styles</span>
-                    )}
-                  </button>
-                ))}
+      <section className="product-shop-section relative overflow-x-hidden w-full">
+        <ProductAmbientBackground />
+        <div className="relative z-10 site-container py-6 sm:py-8 lg:py-10 w-full">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 w-full">
+            <aside className="w-full lg:w-56 xl:w-60 shrink-0 space-y-4 lg:space-y-5">
+              <div className="card p-4 bg-luxe-cream/90">
+                <p className="text-sm font-semibold text-luxe-brown">Our collection</p>
+                <p className="text-xl sm:text-2xl font-display font-bold text-luxe-gold mt-1">
+                  {getHairProducts().length} styles
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Hair extensions &amp; wigs</p>
+                <p className="text-xs text-luxe-gold font-medium mt-2">All images in 4K quality</p>
               </div>
-            </div>
 
-            {category !== 'hair' && (
-              <div>
-                <h3 className="font-semibold text-luxe-brown mb-3">Filters</h3>
-                <label className="flex items-center gap-2 text-sm mb-3">
-                  <input type="checkbox" checked={inStock} onChange={(e) => setInStock(e.target.checked)} />
-                  In stock only
-                </label>
-                <div className="space-y-2">
-                  <input
-                    type="number"
-                    placeholder="Min price"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                    className="input-field text-sm py-2"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max price"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    className="input-field text-sm py-2"
-                  />
-                </div>
+              <div className="card p-4 bg-[#25D366]/10 border-[#25D366]/30">
+                <p className="text-sm font-medium text-luxe-brown">Pricing</p>
+                <p className="text-xs text-gray-600 mt-1">
+                  Every style is priced on inquiry — message us on WhatsApp for a quote.
+                </p>
               </div>
-            )}
+            </aside>
 
-            {(isHairOnly || category === 'hair') && (
-              <>
-                <div>
-                  <h3 className="font-semibold text-luxe-brown mb-3">Image quality</h3>
-                  <div className="flex flex-wrap lg:flex-col gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setTier('')}
-                      className={`text-left px-3 py-2 rounded-lg text-sm ${
-                        !tierFilter ? 'bg-luxe-brown text-luxe-cream' : 'hover:bg-luxe-rose/50'
-                      }`}
-                    >
-                      All styles
-                    </button>
-                    {TIER_ORDER.map((tid) => (
-                      <button
-                        key={tid}
-                        type="button"
-                        onClick={() => setTier(tid)}
-                        className={`text-left px-3 py-2 rounded-lg text-sm ${
-                          tierFilter === tid ? 'bg-luxe-brown text-luxe-cream' : 'hover:bg-luxe-rose/50'
-                        }`}
-                      >
-                        {PRODUCT_TIERS[tid].label}
-                        <span className="block text-xs opacity-75">
-                          {tierCounts[tid] ?? 0} styles
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="card p-4 bg-[#25D366]/10 border-[#25D366]/30">
-                  <p className="text-sm font-medium text-luxe-brown">Hair pricing</p>
-                  <p className="text-xs text-gray-600 mt-1">
-                    All hair products are priced on inquiry via WhatsApp.
-                  </p>
-                </div>
-              </>
-            )}
-          </aside>
+            <div className="flex-1 min-w-0 w-full">
+              <div className="mb-4 sm:mb-6">
+                <input
+                  type="search"
+                  placeholder="Search hair styles..."
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    const next = new URLSearchParams(searchParams);
+                    if (e.target.value) next.set('q', e.target.value);
+                    else next.delete('q');
+                    setSearchParams(next);
+                  }}
+                  className="input-field"
+                />
+              </div>
 
-          <div className="flex-1">
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <input
-                type="search"
-                placeholder="Search products..."
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  const next = new URLSearchParams(searchParams);
-                  if (e.target.value) next.set('q', e.target.value);
-                  else next.delete('q');
-                  setSearchParams(next);
-                }}
-                className="input-field flex-1"
-              />
-            </div>
-
-            {category && (
-              <h2 className="text-xl font-display text-luxe-brown mb-4">
-                {categoryLabel(category)}
-                {category === 'hair' && (
-                  <span className="text-sm font-sans text-gray-500 ml-2">
-                    ({products.length} — price on WhatsApp)
-                  </span>
-                )}
+              <h2 className="text-lg sm:text-xl font-display text-luxe-cream mb-4 sm:mb-6 drop-shadow-md">
+                Hair Collection
+                <span className="block sm:inline sm:ml-2 text-sm font-sans text-luxe-rose/90 font-normal mt-1 sm:mt-0">
+                  ({products.length} styles · 4K · price on WhatsApp)
+                </span>
               </h2>
-            )}
 
-            <ProductGrid products={products} loading={loading && category !== 'hair'} />
+              <ProductGrid products={products} loading={false} />
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -30,15 +30,15 @@ export default function Wishlist() {
   }, [wishlist]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-display font-bold text-luxe-brown mb-6">Wishlist</h1>
+    <div className="site-container py-6 sm:py-8 w-full overflow-x-hidden">
+      <h1 className="text-xl sm:text-2xl font-display font-bold text-luxe-brown mb-4 sm:mb-6">Wishlist</h1>
       {!wishlist.length ? (
         <div className="text-center py-12">
           <p className="text-gray-500">No favourites yet</p>
           <Link to="/" className="btn-primary inline-block mt-4">Browse products</Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 w-full">
           {products.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

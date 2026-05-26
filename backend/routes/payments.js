@@ -76,7 +76,7 @@ router.post('/eft/initialize', authenticateToken, async (req, res) => {
       reference,
       amount: order.total_amount,
       bank: process.env.EFT_BANK_NAME || 'Standard Bank',
-      account_name: process.env.EFT_ACCOUNT_NAME || 'Luxe Beauty & Essentials',
+      account_name: process.env.EFT_ACCOUNT_NAME || 'Luxe Beauty',
       account_number: process.env.EFT_ACCOUNT_NUMBER || '1234567890',
       branch_code: process.env.EFT_BRANCH_CODE || '051001',
       instructions: 'Use the reference exactly when making your EFT payment.',
@@ -139,7 +139,7 @@ router.get('/receipt/:order_id', authenticateToken, async (req, res) => {
         total: order.total_amount,
         payment_status: order.payment_status,
         payment_reference: order.payment_reference,
-        business: 'Luxe Beauty & Essentials',
+        business: 'Luxe Beauty',
         vat_note: 'Prices include 15% VAT where applicable',
       },
     });

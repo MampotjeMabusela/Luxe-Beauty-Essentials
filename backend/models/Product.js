@@ -15,7 +15,7 @@ const Product = sequelize.define(
     },
     description: DataTypes.TEXT,
     category: {
-      type: DataTypes.ENUM('hair', 'acha', 'toilet_paper'),
+      type: DataTypes.ENUM('hair'),
       allowNull: false,
     },
     price: {
