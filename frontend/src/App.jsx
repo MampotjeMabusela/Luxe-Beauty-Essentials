@@ -60,6 +60,7 @@ function Layout() {
           </div>
         </div>
         <p className="text-center text-xs text-luxe-rose/60 mt-8">© {new Date().getFullYear()} Luxe Beauty. Prices on inquiry via WhatsApp.</p>
+        <p className="text-center text-xs text-luxe-rose/50 mt-2 pb-1">Developed By Mampotje Mabusela.</p>
       </footer>
       <Cart open={cartOpen} onClose={() => setCartOpen(false)} />
       <WhatsAppFloat />
