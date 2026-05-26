@@ -105,6 +105,67 @@
     font-size: clamp(0.9rem, 1.2vw + 0.5rem, 1.125rem);
   }
 
+  /* Legal pages (Terms, Privacy) */
+  .legal-page__hero {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, #1a1410 0%, #3d2c1e 50%, #2d2118 100%);
+  }
+
+  .legal-page__hero::after {
+    content: '';
+    @apply absolute inset-0 opacity-30;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201, 169, 98, 0.35) 0%, transparent 60%);
+  }
+
+  .legal-page__content {
+    @apply text-luxe-dark;
+  }
+
+  .legal-lead {
+    @apply text-base sm:text-lg text-luxe-brown/90 leading-relaxed mb-8 pb-8 border-b border-luxe-rose/40;
+  }
+
+  .legal-toc {
+    @apply mb-10 p-4 sm:p-5 rounded-lg bg-luxe-cream/80 border border-luxe-rose/40;
+  }
+
+  .legal-toc ol {
+    @apply list-decimal list-inside space-y-1.5 text-sm sm:text-base text-luxe-brown;
+  }
+
+  .legal-toc a {
+    @apply text-luxe-brown hover:text-luxe-gold underline-offset-2 hover:underline transition-colors;
+  }
+
+  .legal-section {
+    @apply mb-8 sm:mb-10 last:mb-0;
+  }
+
+  .legal-section__title {
+    @apply text-lg sm:text-xl font-display font-bold text-luxe-brown mb-3 sm:mb-4
+      pb-2 border-b border-luxe-gold/30;
+  }
+
+  .legal-section__body {
+    @apply space-y-3 text-sm sm:text-base text-luxe-dark/90 leading-relaxed;
+  }
+
+  .legal-section__body p {
+    @apply leading-relaxed;
+  }
+
+  .legal-section__body ul {
+    @apply list-disc pl-5 sm:pl-6 space-y-2;
+  }
+
+  .legal-section__body strong {
+    @apply font-semibold text-luxe-brown;
+  }
+
+  .legal-section__body a {
+    @apply text-luxe-gold hover:underline underline-offset-2;
+  }
+
   /* Product shop: 3D ambient — contained, no horizontal bleed */
   .product-shop-section {
     min-height: 50vh;

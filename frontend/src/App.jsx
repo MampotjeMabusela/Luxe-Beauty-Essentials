@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
@@ -13,6 +13,8 @@ import Orders from './pages/Orders';
 import Profile from './pages/Profile';
 import Admin from './pages/Admin';
 import Wishlist from './pages/Wishlist';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import Logo from './components/Logo';
 import { WHATSAPP_DISPLAY } from './utils/whatsapp';
@@ -34,6 +36,8 @@ function Layout() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </main>
       <footer className="relative w-full bg-gradient-to-b from-luxe-dark via-luxe-brown to-luxe-dark text-luxe-cream py-8 sm:py-10 lg:py-12 border-t border-luxe-gold/20 mt-8 sm:mt-10">
@@ -59,7 +63,18 @@ function Layout() {
             <p className="text-luxe-gold mt-1">Free shipping over R999</p>
           </div>
         </div>
-        <p className="text-center text-xs text-luxe-rose/60 mt-8">© {new Date().getFullYear()} Luxe Beauty. Prices on inquiry via WhatsApp.</p>
+        <div className="site-container mt-8 pt-6 border-t border-luxe-gold/15 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
+          <Link to="/terms" className="text-luxe-rose/85 hover:text-luxe-gold transition-colors">
+            Terms &amp; Conditions
+          </Link>
+          <span className="hidden sm:inline text-luxe-rose/40" aria-hidden>
+            |
+          </span>
+          <Link to="/privacy" className="text-luxe-rose/85 hover:text-luxe-gold transition-colors">
+            Privacy Policy
+          </Link>
+        </div>
+        <p className="text-center text-xs text-luxe-rose/60 mt-6">© {new Date().getFullYear()} Luxe Beauty. Prices on inquiry via WhatsApp.</p>
         <p className="text-center text-xs text-luxe-rose/50 mt-2 pb-1">Developed By Mampotje Mabusela.</p>
       </footer>
       <Cart open={cartOpen} onClose={() => setCartOpen(false)} />
