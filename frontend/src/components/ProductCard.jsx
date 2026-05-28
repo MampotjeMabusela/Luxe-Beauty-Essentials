@@ -81,7 +81,7 @@ export default function ProductCard({ product }) {
           {inquiry && (
             <WhatsAppButton
               productName={product.name}
-              label="Quick WhatsApp quote"
+              label="Quote"
               className="w-full"
               size="sm"
             />

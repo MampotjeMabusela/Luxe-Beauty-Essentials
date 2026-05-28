@@ -142,7 +142,7 @@ export default function ProductDetail() {
                 </button>
                 <WhatsAppButton
                   productName={quoteProductName}
-                  label="Quick quote"
+                  label="Quote"
                   size="md"
                   className="flex-1"
                 />
