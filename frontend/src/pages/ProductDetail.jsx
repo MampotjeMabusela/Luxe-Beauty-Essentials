@@ -14,6 +14,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [qty, setQty] = useState(1);
+  const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const [reviewForm, setReviewForm] = useState({ rating: 5, review_text: '' });
   const { addItem } = useCart();
   const { user } = useAuth();
@@ -31,6 +32,10 @@ export default function ProductDetail() {
     api.get(`/products/${id}`).then(({ data }) => setProduct(data)).catch(() => setProduct(null));
     api.get(`/products/${id}/reviews`).then(({ data }) => setReviews(data.reviews)).catch(() => setReviews([]));
   }, [id, isCatalogProduct]);
+
+  useEffect(() => {
+    setSelectedVariantIdx(0);
+  }, [product?.id]);
 
   const submitReview = async (e) => {
     e.preventDefault();
@@ -56,6 +61,22 @@ export default function ProductDetail() {
   const tierConfig = getTierConfig();
   const image = product.image_urls?.[0];
   const lowStock = !inquiry && product.stock_quantity > 0 && product.stock_quantity <= 10;
+  const variantPricing = Array.isArray(product.variant_pricing) ? product.variant_pricing : [];
+  const hasVariantPricing = variantPricing.length > 0;
+  const selectedVariant = hasVariantPricing
+    ? variantPricing[Math.min(selectedVariantIdx, variantPricing.length - 1)]
+    : null;
+  const productForCart = selectedVariant
+    ? {
+        ...product,
+        name: `${product.name} - ${selectedVariant.label}`,
+        price: selectedVariant.price,
+        price_on_inquiry: false,
+      }
+    : product;
+  const quoteProductName = selectedVariant
+    ? `${product.name} - ${selectedVariant.label} (${formatZAR(selectedVariant.price)})`
+    : product.name;
 
   return (
     <div className="site-container py-6 sm:py-8 w-full overflow-x-hidden">
@@ -85,18 +106,42 @@ export default function ProductDetail() {
           {inquiry ? (
             <div className="mt-6 space-y-4">
               <InquiryPriceBadge />
+              {hasVariantPricing && (
+                <div className="card p-4 bg-luxe-cream/80 border border-luxe-rose/50">
+                  <label htmlFor="colour-price" className="block text-sm font-medium text-luxe-brown mb-2">
+                    Choose colour and price
+                  </label>
+                  <select
+                    id="colour-price"
+                    value={selectedVariantIdx}
+                    onChange={(e) => setSelectedVariantIdx(Number(e.target.value))}
+                    className="input-field"
+                  >
+                    {variantPricing.map((option, idx) => (
+                      <option key={option.label} value={idx}>
+                        {option.label} - {formatZAR(option.price)}
+                      </option>
+                    ))}
+                  </select>
+                  {selectedVariant && (
+                    <p className="mt-2 text-sm text-luxe-brown">
+                      Selected: <strong>{selectedVariant.label}</strong> ({formatZAR(selectedVariant.price)})
+                    </p>
+                  )}
+                </div>
+              )}
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   type="button"
                   className="btn-primary flex-1"
                   onClick={() => {
-                    for (let i = 0; i < qty; i++) addItem(product);
+                    for (let i = 0; i < qty; i++) addItem(productForCart);
                   }}
                 >
                   Add to cart
                 </button>
                 <WhatsAppButton
-                  productName={product.name}
+                  productName={quoteProductName}
                   label="Quick quote"
                   size="md"
                   className="flex-1"

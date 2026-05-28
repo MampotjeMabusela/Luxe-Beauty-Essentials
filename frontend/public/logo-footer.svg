@@ -9,14 +9,39 @@
       <stop offset="0%" stop-color="#F8F4EF"/>
       <stop offset="100%" stop-color="#E8D5C4"/>
     </linearGradient>
+    <radialGradient id="fglow" cx="32%" cy="22%" r="82%">
+      <stop offset="0%" stop-color="#FFF3CD" stop-opacity="0.9"/>
+      <stop offset="58%" stop-color="#D7BA75" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#8D7134" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fshine" x1="20" y1="18" x2="52" y2="52">
+      <stop offset="0%" stop-color="#FFF9E6" stop-opacity="0.85"/>
+      <stop offset="55%" stop-color="#EED9A0" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#EED9A0" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="fDepth" x="-30%" y="-30%" width="170%" height="170%">
+      <feDropShadow dx="1.3" dy="1.9" stdDeviation="2.1" flood-color="#090604" flood-opacity="0.6"/>
+      <feDropShadow dx="-0.8" dy="-0.8" stdDeviation="1.2" flood-color="#F5E3B8" flood-opacity="0.4"/>
+    </filter>
   </defs>
   <!-- Emblem -->
-  <circle cx="36" cy="36" r="32" fill="none" stroke="url(#fg)" stroke-width="1.5" opacity="0.9"/>
-  <circle cx="36" cy="36" r="26" fill="#1A1410" stroke="url(#fg)" stroke-width="1"/>
-  <path d="M22 50V22h8c6.5 0 10.5 3.5 10.5 9 0 4-2.2 6.8-5.8 7.8L46 50h-7.5l-8.2-11H28v11H22z M28 27.5v8.5h7.2c3.2 0 5-1.5 5-4.2s-1.8-4.3-5-4.3H28z" fill="url(#fc)"/>
-  <path d="M10 36c0-14.4 11.6-26 26-26" stroke="url(#fg)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <g filter="url(#fDepth)">
+    <circle cx="36" cy="36" r="32" fill="none" stroke="url(#fg)" stroke-width="1.5" opacity="0.95"/>
+    <circle cx="36" cy="36" r="26" fill="#1A1410" stroke="url(#fg)" stroke-width="1"/>
+    <circle cx="36" cy="36" r="24" fill="url(#fglow)" opacity="0.35"/>
+    <ellipse cx="34.5" cy="29" rx="13.5" ry="9.5" fill="url(#fshine)" opacity="0.65"/>
+    <!-- Letter changed from R to L -->
+    <path d="M24 22h7.6v20h13.8V50H24V22z" fill="url(#fc)"/>
+    <path d="M24 22h7.6v2H24z" fill="#FFFFFF" opacity="0.55"/>
+    <path d="M24 48h21.4v2H24z" fill="#C9A962" opacity="0.4"/>
+  </g>
+  <path d="M56 16.5l1.8 3.3 3.7 0.5-2.7 2.6 0.7 3.6-3.5-1.8-3.4 1.8 0.7-3.6-2.7-2.6 3.7-0.5z" fill="#F7E7BE" opacity="0.9"/>
+  <circle cx="62.5" cy="30" r="1.3" fill="#F8EDD2" opacity="0.82"/>
+  <circle cx="17" cy="20" r="1.1" fill="#F8EDD2" opacity="0.7"/>
+  <path d="M10 36c0-14.4 11.6-26 26-26" stroke="url(#fg)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.85"/>
   <!-- Wordmark -->
-  <text x="82" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="url(#fc)" letter-spacing="0.03em">LUXE</text>
+  <text x="82" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="url(#fc)" letter-spacing="0.03em" filter="url(#fDepth)">LUXE</text>
+  <text x="82" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#F8E8C1" letter-spacing="0.03em" opacity="0.2">LUXE</text>
   <text x="82" y="52" font-family="system-ui, Segoe UI, sans-serif" font-size="11" font-weight="600" fill="url(#fg)" letter-spacing="0.38em">BEAUTY</text>
   <line x1="82" y1="38" x2="290" y2="38" stroke="url(#fg)" stroke-width="1" opacity="0.5"/>
   <text x="82" y="66" font-family="system-ui, sans-serif" font-size="8" fill="#E8D5C4" opacity="0.7" letter-spacing="0.15em">SOUTH AFRICA</text>

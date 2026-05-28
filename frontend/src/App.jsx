@@ -52,7 +52,7 @@ function Layout() {
           <div>
             <p className="font-semibold mb-2">Support</p>
             <p>WhatsApp: {WHATSAPP_DISPLAY}</p>
-            <p>Email: support@luxebeauty.co.za</p>
+            <p>Email: evemasenya@gmail.com</p>
             <p className="mt-2 text-luxe-rose/80">30-day returns · POPIA compliant</p>
           </div>
           <div>

@@ -6,7 +6,7 @@ export const COMPANY = {
   tagline: 'Premium Hair Extensions, Lace Fronts & Wigs',
   phone: WHATSAPP_DISPLAY,
   whatsapp: WHATSAPP_NUMBER,
-  email: 'support@luxebeauty.co.za',
+  email: 'evemasenya@gmail.com',
   website: 'www.luxebeauty.co.za',
   address: 'South Africa',
   vatNote: 'Prices quoted on inquiry · VAT applicable where required',
