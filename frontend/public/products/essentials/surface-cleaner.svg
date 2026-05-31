@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#FFFAF5"/>
+  <path d="M160 95h80l10 240H150L160 95z" fill="#fff" stroke="#E07B54" stroke-width="3"/>
+  <rect x="175" y="75" width="50" height="28" rx="6" fill="#E07B54"/>
+  <path d="M170 180h60M170 220h60M170 260h40" stroke="#F4C4A8" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="280" cy="280" r="40" fill="#E07B54" opacity="0.15"/>
+  <text x="200" y="340" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#9E4A2E" font-weight="600">Surface Cleaner</text>
+</svg>

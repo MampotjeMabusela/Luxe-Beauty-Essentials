@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#F0F7F4"/>
+  <rect x="80" y="100" width="110" height="200" rx="12" fill="#fff" stroke="#5B9A78" stroke-width="3"/>
+  <rect x="210" y="100" width="110" height="200" rx="12" fill="#fff" stroke="#5B9A78" stroke-width="3"/>
+  <path d="M95 130h80M95 160h80M95 190h80M225 130h80M225 160h80M225 190h80" stroke="#C8E6D5" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="135" cy="85" r="18" fill="#5B9A78" opacity="0.2"/>
+  <circle cx="265" cy="85" r="18" fill="#5B9A78" opacity="0.2"/>
+  <text x="200" y="340" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#2D5A45" font-weight="600">Kitchen Towels</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#F5FAFF"/>
+  <rect x="100" y="120" width="200" height="160" rx="8" fill="#fff" stroke="#4A90A4" stroke-width="3"/>
+  <ellipse cx="200" cy="200" rx="70" ry="50" fill="#E8F4F8"/>
+  <path d="M160 200c20-30 60-30 80 0" stroke="#4A90A4" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <rect x="130" y="145" width="140" height="12" rx="4" fill="#4A90A4" opacity="0.3"/>
+  <text x="200" y="340" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#2A5F6E" font-weight="600">Facial Tissues</text>
+</svg>

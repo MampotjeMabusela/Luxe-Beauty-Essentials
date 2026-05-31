@@ -13,6 +13,7 @@ import Orders from './pages/Orders';
 import Profile from './pages/Profile';
 import Admin from './pages/Admin';
 import Wishlist from './pages/Wishlist';
+import Essentials from './pages/Essentials';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import WhatsAppFloat from './components/WhatsAppFloat';
@@ -28,6 +29,7 @@ function Layout() {
       <main className="flex-1 w-full min-w-0 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/essentials" element={<Essentials />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/login" element={<Login />} />
@@ -46,7 +48,7 @@ function Layout() {
           <div>
             <Logo variant="footer" linked={false} />
             <p className="text-luxe-rose/90 leading-relaxed max-w-xs">
-              Premium hair extensions, lace fronts &amp; wigs — crafted for South Africa.
+              Premium hair extensions &amp; everyday essentials — crafted for South Africa.
             </p>
           </div>
           <div>

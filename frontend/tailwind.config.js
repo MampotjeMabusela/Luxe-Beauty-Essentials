@@ -19,6 +19,13 @@ export default {
           rose: '#E8D5C4',
           dark: '#1A1410',
         },
+        essential: {
+          mint: '#D4EDE4',
+          teal: '#2D7A62',
+          slate: '#2C3E50',
+          sky: '#E8F4F8',
+          cream: '#F7FAF9',
+        },
       },
       fontFamily: {
         display: ['Georgia', 'serif'],

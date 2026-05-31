@@ -11,11 +11,19 @@ export default function Header({ onCartOpen }) {
         <div className="flex items-center justify-between gap-3 min-h-[3.5rem] sm:min-h-[4rem] py-2">
           <Logo variant="header" className="min-w-0 shrink" />
 
-          <nav className="hidden md:flex items-center gap-5 lg:gap-6 text-sm font-medium shrink-0">
+          <nav className="flex items-center gap-3 sm:gap-5 lg:gap-6 text-xs sm:text-sm font-medium shrink-0">
             <NavLink to="/" end className={({ isActive }) => (isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold')}>
-              Shop
+              Hair
             </NavLink>
-            <NavLink to="/wishlist" className={({ isActive }) => (isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold')}>
+            <NavLink to="/essentials" className={({ isActive }) => (isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold')}>
+              Essentials
+            </NavLink>
+            <NavLink
+              to="/wishlist"
+              className={({ isActive }) =>
+                `hidden sm:inline ${isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold'}`
+              }
+            >
               Wishlist
             </NavLink>
           </nav>

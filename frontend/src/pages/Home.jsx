@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import ProductGrid from '../components/ProductGrid';
 import ProductAmbientBackground from '../components/ProductAmbientBackground';
 import { filterHairProducts, getHairProducts } from '../data/hairCatalog';
@@ -85,10 +85,23 @@ export default function Home() {
               </div>
 
               <div className="card p-4 bg-[#25D366]/10 border-[#25D366]/30">
-                <p className="text-sm font-medium text-luxe-brown">Pricing</p>
+                <p className="text-sm font-medium text-luxe-brown">Hair pricing</p>
                 <p className="text-xs text-gray-600 mt-1">
-                  Every style is priced on inquiry — message us on WhatsApp for a quote.
+                  Hair styles are priced on inquiry — message us on WhatsApp for a quote.
                 </p>
+              </div>
+
+              <div className="card p-4 bg-[#2D7A62]/10 border-[#2D7A62]/30">
+                <p className="text-sm font-medium text-luxe-brown">Luxe Essentials</p>
+                <p className="text-xs text-gray-600 mt-1">
+                  Toilet paper packs — 2Ply 24 Rolls (R170) &amp; 1Ply 48 Rolls (R210).
+                </p>
+                <Link
+                  to="/essentials"
+                  className="inline-block mt-3 text-xs font-semibold text-[#2D7A62] hover:underline"
+                >
+                  Shop Essentials →
+                </Link>
               </div>
             </aside>
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#F7F7F7"/>
+  <g transform="translate(60,80)">
+    <rect x="0" y="0" width="280" height="220" rx="8" fill="#fff" stroke="#888" stroke-width="2" opacity="0.9"/>
+    <g fill="#fff" stroke="#ccc" stroke-width="1.5">
+      <circle cx="45" cy="55" r="22"/><circle cx="95" cy="55" r="22"/><circle cx="145" cy="55" r="22"/><circle cx="195" cy="55" r="22"/><circle cx="245" cy="55" r="22"/>
+      <circle cx="45" cy="110" r="22"/><circle cx="95" cy="110" r="22"/><circle cx="145" cy="110" r="22"/><circle cx="195" cy="110" r="22"/><circle cx="245" cy="110" r="22"/>
+      <circle cx="45" cy="165" r="22"/><circle cx="95" cy="165" r="22"/><circle cx="145" cy="165" r="22"/><circle cx="195" cy="165" r="22"/><circle cx="245" cy="165" r="22"/>
+    </g>
+  </g>
+  <text x="200" y="340" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#555" font-weight="600">48 Roll Bulk Pack</text>
+</svg>
