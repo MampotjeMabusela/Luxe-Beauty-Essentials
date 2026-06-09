@@ -17,6 +17,8 @@ import Essentials from './pages/Essentials';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import WinterPromoBanner from './components/WinterPromoBanner';
+import WinterDecoration from './components/WinterDecoration';
 import Logo from './components/Logo';
 import { WHATSAPP_DISPLAY } from './utils/whatsapp';
 
@@ -26,6 +28,7 @@ function Layout() {
   return (
     <div className="min-h-screen min-h-[100dvh] flex flex-col w-full overflow-x-hidden">
       <Header onCartOpen={() => setCartOpen(true)} />
+      <WinterPromoBanner />
       <main className="flex-1 w-full min-w-0 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -80,6 +83,7 @@ function Layout() {
         <p className="text-center text-xs text-luxe-rose/50 mt-2 pb-1">Developed By Mampotje Mabusela.</p>
       </footer>
       <Cart open={cartOpen} onClose={() => setCartOpen(false)} />
+      <WinterDecoration />
       <WhatsAppFloat />
     </div>
   );

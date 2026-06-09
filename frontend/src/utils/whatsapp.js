@@ -15,7 +15,37 @@ export function generalInquiryMessage() {
   return `Hi Luxe Beauty! 👋\n\nI'd like to enquire about your hair products and availability.\n\nThank you!`;
 }
 
-export function cartPurchaseMessage({ orderRef, customer, items, hasInquiryPricing, subtotal }) {
+function formatTotalLine({ hasInquiryPricing, subtotal, winterPromo }) {
+  if (winterPromo?.hasPromo) {
+    if (hasInquiryPricing && winterPromo.pricedSubtotal === 0) {
+      return 'Priced items total: *To be quoted with Winter Special applied*';
+    }
+    return `Winter Special total: *R${winterPromo.total.toFixed(2)}* (saved R${winterPromo.totalDiscount.toFixed(2)})`;
+  }
+  if (hasInquiryPricing) return 'Subtotal: *To be quoted*';
+  return `Subtotal: *R${subtotal.toFixed(2)}*`;
+}
+
+function formatPromoBlock(winterPromo) {
+  if (!winterPromo?.hasPromo || winterPromo.totalDiscount <= 0) return '';
+  const lines = ['*Winter Special*', '• 10% off all products'];
+  if (winterPromo.bundleDiscount > 0) {
+    lines.push(`• Buy 2 get 50% off 3rd (−R${winterPromo.bundleDiscount.toFixed(2)})`);
+  }
+  if (winterPromo.winterTenPercentOff > 0) {
+    lines.push(`• 10% winter discount (−R${winterPromo.winterTenPercentOff.toFixed(2)})`);
+  }
+  return `${lines.join('\n')}\n\n`;
+}
+
+export function cartPurchaseMessage({
+  orderRef,
+  customer,
+  items,
+  hasInquiryPricing,
+  subtotal,
+  winterPromo,
+}) {
   const lines = items.map(
     (i, n) =>
       `${n + 1}. ${i.name} × ${i.quantity}${
@@ -32,10 +62,10 @@ Reference: *${orderRef}*
 Name: ${customer.fullName}
 Phone: ${customer.phone}${customer.email ? `\nEmail: ${customer.email}` : ''}${customer.city ? `\nArea: ${customer.city}` : ''}${customer.notes ? `\nNotes: ${customer.notes}` : ''}
 
-*Items*
+${formatPromoBlock(winterPromo)}*Items*
 ${lines.join('\n')}
 
-${hasInquiryPricing ? 'Subtotal: *To be quoted*' : `Subtotal: *R${subtotal.toFixed(2)}*`}
+${formatTotalLine({ hasInquiryPricing, subtotal, winterPromo })}
 
 I have downloaded the order PDF and will attach it here.
 

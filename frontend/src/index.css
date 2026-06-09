@@ -457,4 +457,155 @@
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
       bg-essential-mint text-essential-teal uppercase tracking-wide;
   }
+
+  /* Site header — solid black bar (no blur bleed from page background) */
+  .site-header {
+    background-color: #1a1410;
+  }
+
+  /* Brand logo — black & gold theme alignment */
+  .logo-brand {
+    @apply object-contain object-left;
+  }
+
+  .logo-brand--header {
+    @apply rounded-full ring-2 ring-luxe-gold/50 shadow-[0_4px_20px_rgba(201,169,98,0.25)];
+  }
+
+  .logo-brand--footer {
+    filter: drop-shadow(0 0 14px rgba(201, 169, 98, 0.22));
+  }
+
+  /* Winter decoration — realistic snow & frost overlay */
+  .winter-deco {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    overflow: hidden;
+  }
+
+  .winter-deco__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .winter-deco__aurora {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(147, 197, 253, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 45% at 85% 5%, rgba(196, 181, 253, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(191, 219, 254, 0.06) 0%, transparent 45%);
+    animation: winter-aurora 18s ease-in-out infinite alternate;
+  }
+
+  .winter-deco__frost-glow {
+    position: absolute;
+    top: clamp(4rem, 12vw, 5.25rem);
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(219, 234, 254, 0.08) 45%,
+      transparent 100%
+    );
+  }
+
+  .winter-deco__sparkles {
+    position: absolute;
+    inset: 0;
+  }
+
+  .winter-deco__sparkle {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.85);
+    animation: winter-sparkle 3.5s ease-in-out infinite;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  .winter-deco__corner {
+    position: absolute;
+    width: min(180px, 28vw);
+    height: min(180px, 28vw);
+    opacity: 0.35;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+    filter: blur(8px);
+  }
+
+  .winter-deco__corner--tl {
+    top: 0;
+    left: 0;
+    transform: translate(-30%, -30%);
+  }
+
+  .winter-deco__corner--tr {
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+  }
+
+  .winter-deco__vignette {
+    position: absolute;
+    inset: 0;
+    box-shadow:
+      inset 0 0 80px rgba(147, 197, 253, 0.08),
+      inset 0 -40px 60px rgba(219, 234, 254, 0.05);
+  }
+
+  @keyframes winter-aurora {
+    0% { opacity: 0.65; transform: translateX(0); }
+    100% { opacity: 1; transform: translateX(2%); }
+  }
+
+  @keyframes winter-sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.4); }
+    50% { opacity: 0.95; transform: scale(1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .winter-deco {
+      display: none;
+    }
+  }
+
+  /* Winter special promo banner */
+  .winter-promo-banner {
+    @apply relative z-[45] w-full border-b border-luxe-gold/25;
+    background: linear-gradient(90deg, #0f172a 0%, #1a1410 45%, #0c4a6e 100%);
+  }
+
+  .winter-promo-banner__badge {
+    @apply flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full text-base sm:text-lg;
+    background: linear-gradient(135deg, rgba(201, 169, 98, 0.35), rgba(147, 197, 253, 0.25));
+    border: 1px solid rgba(201, 169, 98, 0.45);
+  }
+
+  .winter-promo-banner__title {
+    @apply text-sm sm:text-base font-bold text-luxe-gold tracking-wide uppercase;
+  }
+
+  .winter-promo-banner__subtitle {
+    @apply text-[11px] sm:text-xs text-sky-100/75 mt-0.5;
+  }
+
+  .winter-promo-banner__pill {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold
+      text-sky-50 bg-white/10 border border-sky-200/25 whitespace-nowrap;
+  }
+
+  .winter-promo-banner__pill--accent {
+    @apply bg-luxe-gold/15 border-luxe-gold/40 text-luxe-gold;
+  }
 }

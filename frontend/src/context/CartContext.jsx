@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import { isInquiryProduct } from '../data/hairCatalog';
+import { calculateWinterPromo } from '../utils/winterPromo';
 
 const CartContext = createContext(null);
 const STORAGE_KEY = 'luxe_cart';
@@ -87,6 +88,8 @@ export function CartProvider({ children }) {
     [items]
   );
 
+  const winterPromo = useMemo(() => calculateWinterPromo(items), [items]);
+
   const hasInquiryPricing = useMemo(
     () => items.some((i) => i.price_on_inquiry || !i.price),
     [items]
@@ -107,6 +110,7 @@ export function CartProvider({ children }) {
     setCoupon,
     validated,
     subtotal,
+    winterPromo,
     hasInquiryPricing,
     itemCount,
     addItem,

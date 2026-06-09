@@ -2,10 +2,28 @@ import { jsPDF } from 'jspdf';
 import { COMPANY } from '../data/company';
 import { formatZAR } from './format';
 
+const PDF_LOGO_PATH = '/logo-footer.png';
+
 export function generateOrderReference() {
   const ts = Date.now().toString(36).toUpperCase();
   const rand = Math.random().toString(36).substring(2, 5).toUpperCase();
   return `LB-${ts}-${rand}`;
+}
+
+async function loadPdfLogo() {
+  try {
+    const response = await fetch(PDF_LOGO_PATH);
+    if (!response.ok) return null;
+    const blob = await response.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
 }
 
 function linePrice(item) {
@@ -18,14 +36,47 @@ function lineTotal(item) {
   return formatZAR(item.price * item.quantity);
 }
 
+function drawPdfHeader(doc, { orderRef, logoDataUrl, margin }) {
+  const headerHeight = 36;
+  const logoSize = 28;
+  const logoY = (headerHeight - logoSize) / 2;
+
+  doc.setFillColor(26, 20, 16);
+  doc.rect(0, 0, 210, headerHeight, 'F');
+  doc.setDrawColor(201, 169, 98);
+  doc.setLineWidth(0.4);
+  doc.line(0, headerHeight, 210, headerHeight);
+
+  if (logoDataUrl) {
+    doc.addImage(logoDataUrl, 'PNG', margin, logoY, logoSize, logoSize);
+  } else {
+    doc.setTextColor(201, 169, 98);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('LUXE BEAUTY & ESSENTIALS', margin, logoY + 12);
+  }
+
+  doc.setTextColor(248, 244, 239);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`Order: ${orderRef}`, 210 - margin, logoY + 10, { align: 'right' });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(201, 169, 98);
+  doc.text(new Date().toLocaleString('en-ZA'), 210 - margin, logoY + 16, { align: 'right' });
+
+  return headerHeight + 8;
+}
+
 /**
- * @param {{ orderRef: string, customer: object, items: array, subtotal: number, hasInquiryPricing: boolean }} order
+ * @param {{ orderRef: string, customer: object, items: array, subtotal: number, hasInquiryPricing: boolean, winterPromo?: object }} order
  */
-export function downloadOrderPdf(order) {
-  const { orderRef, customer, items, subtotal, hasInquiryPricing } = order;
+export async function downloadOrderPdf(order) {
+  const { orderRef, customer, items, subtotal, hasInquiryPricing, winterPromo } = order;
+  const logoDataUrl = await loadPdfLogo();
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const margin = 18;
-  let y = margin;
+  let y = drawPdfHeader(doc, { orderRef, logoDataUrl, margin });
 
   const addLine = (text, size = 10, style = 'normal', color = [61, 44, 30]) => {
     doc.setFontSize(size);
@@ -42,25 +93,10 @@ export function downloadOrderPdf(order) {
     });
   };
 
-  // Header band
-  doc.setFillColor(61, 44, 30);
-  doc.rect(0, 0, 210, 32, 'F');
-  doc.setTextColor(201, 169, 98);
-  doc.setFontSize(20);
-  doc.setFont('helvetica', 'bold');
-  doc.text(COMPANY.name.toUpperCase(), margin, 14);
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  doc.text(COMPANY.tagline, margin, 22);
-  doc.setTextColor(248, 244, 239);
-  doc.text(`Order: ${orderRef}`, margin, 28);
-
-  y = 42;
   doc.setTextColor(61, 44, 30);
 
   addLine('PURCHASE QUOTATION REQUEST', 14, 'bold');
-  addLine(`Date: ${new Date().toLocaleString('en-ZA')}`, 9);
-  y += 4;
+  y += 2;
 
   addLine('— Company —', 11, 'bold', [201, 169, 98]);
   addLine(`${COMPANY.legalName}`, 10);
@@ -80,11 +116,11 @@ export function downloadOrderPdf(order) {
 
   addLine('— Order items —', 11, 'bold', [201, 169, 98]);
 
-  // Table header
   doc.setFillColor(248, 244, 239);
   doc.rect(margin, y, 210 - margin * 2, 8, 'F');
   doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
+  doc.setTextColor(61, 44, 30);
   doc.text('Product', margin + 2, y + 5.5);
   doc.text('Qty', 130, y + 5.5);
   doc.text('Unit', 145, y + 5.5);
@@ -101,6 +137,7 @@ export function downloadOrderPdf(order) {
     doc.rect(margin, y - 2, 210 - margin * 2, 10, 'F');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
+    doc.setTextColor(61, 44, 30);
     const nameLines = doc.splitTextToSize(item.name, 115);
     doc.text(nameLines[0], margin + 2, y + 4);
     doc.text(String(item.quantity), 132, y + 4);
@@ -110,8 +147,21 @@ export function downloadOrderPdf(order) {
   });
 
   y += 4;
-  if (hasInquiryPricing) {
-    addLine('Subtotal: Prices to be confirmed on WhatsApp', 10, 'bold');
+  if (winterPromo?.hasPromo && winterPromo.totalDiscount > 0) {
+    addLine('— Winter Special —', 11, 'bold', [147, 197, 253]);
+    addLine('10% off all products', 9);
+    addLine('Buy any 2, get 50% off the 3rd (cheapest item in each set of 3)', 9);
+    addLine(`Subtotal before discounts: ${formatZAR(winterPromo.pricedSubtotal)}`, 9);
+    if (winterPromo.bundleDiscount > 0) {
+      addLine(`Bundle savings: −${formatZAR(winterPromo.bundleDiscount)}`, 9);
+    }
+    if (winterPromo.winterTenPercentOff > 0) {
+      addLine(`Winter 10% off: −${formatZAR(winterPromo.winterTenPercentOff)}`, 9);
+    }
+    addLine(`Total after Winter Special: ${formatZAR(winterPromo.total)}`, 10, 'bold');
+    y += 2;
+  } else if (hasInquiryPricing) {
+    addLine('Subtotal: Prices to be confirmed on WhatsApp (Winter Special applies)', 10, 'bold');
   } else {
     addLine(`Subtotal: ${formatZAR(subtotal)}`, 11, 'bold');
   }

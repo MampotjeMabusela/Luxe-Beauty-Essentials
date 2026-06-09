@@ -6,22 +6,33 @@ export default function Header({ onCartOpen }) {
   const { itemCount } = useCart();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-luxe-rose/40 shadow-sm">
+    <header className="site-header sticky top-0 z-50 w-full bg-black border-b border-luxe-gold/30 shadow-md">
       <div className="site-container">
-        <div className="flex items-center justify-between gap-3 min-h-[3.5rem] sm:min-h-[4rem] py-2">
+        <div className="flex items-center justify-between gap-3 min-h-[4.25rem] sm:min-h-[4.75rem] md:min-h-[5.25rem] py-2.5">
           <Logo variant="header" className="min-w-0 shrink" />
 
           <nav className="flex items-center gap-3 sm:gap-5 lg:gap-6 text-xs sm:text-sm font-medium shrink-0">
-            <NavLink to="/" end className={({ isActive }) => (isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold')}>
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                isActive ? 'text-luxe-gold' : 'text-luxe-cream/90 hover:text-luxe-gold'
+              }
+            >
               Hair
             </NavLink>
-            <NavLink to="/essentials" className={({ isActive }) => (isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold')}>
+            <NavLink
+              to="/essentials"
+              className={({ isActive }) =>
+                isActive ? 'text-luxe-gold' : 'text-luxe-cream/90 hover:text-luxe-gold'
+              }
+            >
               Essentials
             </NavLink>
             <NavLink
               to="/wishlist"
               className={({ isActive }) =>
-                `hidden sm:inline ${isActive ? 'text-luxe-gold' : 'hover:text-luxe-gold'}`
+                `hidden sm:inline ${isActive ? 'text-luxe-gold' : 'text-luxe-cream/90 hover:text-luxe-gold'}`
               }
             >
               Wishlist

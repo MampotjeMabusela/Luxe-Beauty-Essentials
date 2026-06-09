@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { formatZAR } from '../utils/format';
+import { WINTER_PROMO } from '../utils/winterPromo';
 import { COMPANY } from '../data/company';
 import { buildWhatsAppUrl, cartPurchaseMessage } from '../utils/whatsapp';
 import { downloadOrderPdf, generateOrderReference } from '../utils/generateOrderPdf';
@@ -17,7 +18,7 @@ const emptyContact = {
 };
 
 export default function Cart({ open, onClose }) {
-  const { items, subtotal, hasInquiryPricing, removeItem, updateQuantity, clearCart, itemCount } =
+  const { items, subtotal, winterPromo, hasInquiryPricing, removeItem, updateQuantity, clearCart, itemCount } =
     useCart();
   const [customer, setCustomer] = useState(emptyContact);
   const [submitting, setSubmitting] = useState(false);
@@ -64,10 +65,11 @@ export default function Cart({ open, onClose }) {
         },
         items,
         subtotal,
+        winterPromo,
         hasInquiryPricing,
       };
 
-      const pdfName = downloadOrderPdf(order);
+      const pdfName = await downloadOrderPdf(order);
       const message = cartPurchaseMessage(order);
       window.open(buildWhatsAppUrl(message), '_blank', 'noopener,noreferrer');
 
@@ -108,6 +110,21 @@ export default function Cart({ open, onClose }) {
           </div>
 
           <div className="p-4 space-y-4">
+            <div className="winter-promo-cart bg-gradient-to-r from-sky-950 to-luxe-dark border border-sky-300/30 rounded-xl p-3 text-xs sm:text-sm">
+              <p className="font-semibold text-sky-100 flex items-center gap-1.5">
+                <span aria-hidden>❄</span> {WINTER_PROMO.title} active
+              </p>
+              <ul className="mt-2 space-y-1 text-sky-100/85 list-disc list-inside">
+                <li>{WINTER_PROMO.tenPercentLabel}</li>
+                <li>{WINTER_PROMO.bundleLabel}</li>
+              </ul>
+              {hasInquiryPricing && (
+                <p className="mt-2 text-sky-200/70 text-[11px]">
+                  Inquiry items: winter savings applied when we quote on WhatsApp.
+                </p>
+              )}
+            </div>
+
             {items.length === 0 ? (
               <p className="text-center text-gray-500 py-8">Your cart is empty — add hair styles from the shop.</p>
             ) : (
@@ -196,16 +213,45 @@ export default function Cart({ open, onClose }) {
 
         {items.length > 0 && (
           <div className="p-4 border-t space-y-3 bg-luxe-cream shrink-0">
+            {winterPromo.hasPromo && (
+              <div className="space-y-1.5 text-sm border-b border-luxe-rose/30 pb-3">
+                <div className="flex justify-between text-luxe-brown/80">
+                  <span>Subtotal (before discounts)</span>
+                  <span>{formatZAR(winterPromo.pricedSubtotal)}</span>
+                </div>
+                {winterPromo.bundleDiscount > 0 && (
+                  <div className="flex justify-between text-emerald-700">
+                    <span>Bundle deal (50% off 3rd)</span>
+                    <span>−{formatZAR(winterPromo.bundleDiscount)}</span>
+                  </div>
+                )}
+                {winterPromo.winterTenPercentOff > 0 && (
+                  <div className="flex justify-between text-emerald-700">
+                    <span>Winter 10% off</span>
+                    <span>−{formatZAR(winterPromo.winterTenPercentOff)}</span>
+                  </div>
+                )}
+              </div>
+            )}
             <div className="flex justify-between font-semibold text-luxe-brown">
-              <span>Estimated subtotal</span>
+              <span>Estimated total</span>
               <span>
-                {hasInquiryPricing && subtotal === 0
+                {hasInquiryPricing && winterPromo.pricedSubtotal === 0
                   ? 'Quoted on WhatsApp'
-                  : formatZAR(subtotal)}
+                  : formatZAR(winterPromo.hasPromo ? winterPromo.total : subtotal)}
               </span>
             </div>
             {hasInquiryPricing && (
-              <p className="text-xs text-gray-500">Final prices confirmed when you message us on WhatsApp.</p>
+              <p className="text-xs text-gray-500">
+                Priced items include winter savings. Inquiry items confirmed on WhatsApp.
+              </p>
+            )}
+            {winterPromo.pricedUnitCount > 0 && winterPromo.pricedUnitCount % 3 !== 0 && (
+              <p className="text-xs text-sky-800/80 bg-sky-50 px-2 py-1.5 rounded-lg">
+                Add {3 - (winterPromo.pricedUnitCount % 3)} more priced item
+                {3 - (winterPromo.pricedUnitCount % 3) === 1 ? '' : 's'} to unlock
+                {winterPromo.qualifiesForBundle ? ' another' : ''} 50% off the 3rd!
+              </p>
             )}
 
             {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
