@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 const logos = {
   header: {
     src: '/logo-header.svg',
-    className: 'h-11 sm:h-12 md:h-14 w-auto max-w-[190px] sm:max-w-[240px] md:max-w-[280px]',
+    className: 'h-11 sm:h-12 md:h-14 w-auto max-w-[220px] sm:max-w-[280px] md:max-w-[320px]',
   },
   footer: {
     src: '/logo-footer.svg',
-    className: 'h-16 sm:h-20 md:h-24 w-auto max-w-[280px] sm:max-w-[360px] md:max-w-[420px] mb-3',
+    className: 'h-16 sm:h-20 md:h-24 w-auto max-w-[300px] sm:max-w-[400px] md:max-w-[460px] mb-3',
   },
 };
 
@@ -16,9 +16,9 @@ export default function Logo({ variant = 'header', linked = true, className = ''
   const img = (
     <img
       src={config.src}
-      alt="Luxe Beauty"
+      alt="Luxe Beauty & Essentials"
       className={`${config.className} ${className} object-contain object-left`}
-      width={variant === 'footer' ? 420 : 280}
+      width={variant === 'footer' ? 460 : 320}
       height={variant === 'footer' ? 96 : 56}
       decoding="async"
     />
